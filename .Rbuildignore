@@ -1,0 +1,10 @@
+^\.git$
+^\.github$
+^\.gitignore$
+^\.DS_Store$
+^.*\.Rcheck$
+^.*\.(tar\.gz|zip)$
+^release$
+^scripts$
+^docs$
+^CITATION\.cff$

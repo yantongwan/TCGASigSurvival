@@ -1,0 +1,36 @@
+Package: TCGASigSurvival
+Type: Package
+Title: Gene, Cell Context and State Signature Survival Analysis
+Version: 0.3.0
+Authors@R: person("Yantong", "Wan", role = c("aut", "cre"),
+    email = "113027690+yantongwan@users.noreply.github.com")
+Description: Reusable pan-TCGA survival analysis utilities for combining a
+    target gene expression value with a configurable cell-type gene signature
+    score, or for testing a configurable signature score alone, then producing
+    Cox tables, Kaplan-Meier plots, forest plots, and heatmaps from UCSC Xena
+    TCGA expression and survival data. The package also provides CPTAC
+    proteogenomic validation readers and wrappers for independent RNA-protein,
+    marker, survival, and TCGA-CPTAC effect-size integration outputs. Two-layer
+    models separate cell-context scores from state signatures, with continuous,
+    adjusted and cell-context-high analyses. Custom expression cohorts,
+    public-data downloads, batch analyses, and matched proteogenomic analyses
+    are supported without bundling patient data.
+URL: https://github.com/yantongwan/TCGASigSurvival
+BugReports: https://github.com/yantongwan/TCGASigSurvival/issues
+License: MIT + file LICENSE
+Encoding: UTF-8
+Depends: R (>= 4.1.0)
+Imports:
+    data.table,
+    ggplot2,
+    stringr,
+    survival,
+    survminer,
+    grDevices,
+    stats,
+    tools,
+    utils
+Suggests:
+    testthat (>= 3.0.0)
+Config/testthat/edition: 3
+RoxygenNote: 7.3.3

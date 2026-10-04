@@ -1,7 +1,7 @@
 Package: TCGASigSurvival
 Type: Package
 Title: Gene, Cell Context and State Signature Survival Analysis
-Version: 0.3.0
+Version: 0.4.0
 Authors@R: person("Yantong", "Wan", role = c("aut", "cre"),
     email = "113027690+yantongwan@users.noreply.github.com")
 Description: Reusable pan-TCGA survival analysis utilities for combining a
@@ -14,7 +14,10 @@ Description: Reusable pan-TCGA survival analysis utilities for combining a
     models separate cell-context scores from state signatures, with continuous,
     adjusted and cell-context-high analyses. Custom expression cohorts,
     public-data downloads, batch analyses, and matched proteogenomic analyses
-    are supported without bundling patient data.
+    are supported without bundling patient data. Patient-level sorted-cell,
+    single-cell pseudobulk and explicitly labelled estimated/proxy expression
+    support tumor-reference comparisons, differential expression and gene-set
+    enrichment, and multiple distinct clinical survival endpoints.
 URL: https://github.com/yantongwan/TCGASigSurvival
 BugReports: https://github.com/yantongwan/TCGASigSurvival/issues
 License: MIT + file LICENSE
@@ -31,6 +34,14 @@ Imports:
     tools,
     utils
 Suggests:
-    testthat (>= 3.0.0)
+    testthat (>= 3.0.0),
+    Matrix,
+    limma,
+    edgeR,
+    fgsea,
+    ggridges,
+    BiocParallel,
+    msigdbr,
+    svglite
 Config/testthat/edition: 3
 RoxygenNote: 7.3.3

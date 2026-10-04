@@ -15,3 +15,11 @@
   tests, MIT license text and macOS/Linux/Windows GitHub Actions configuration.
 - New two-layer outputs may differ from the earlier project-specific script:
   failed models are excluded and sensitivity cohorts have separate BH families.
+# TCGASigSurvival 0.4.0
+
+- Add donor-level cell expression preparation and annotated single-cell pseudobulk aggregation.
+- Add tumor-versus-healthy/adjacent-normal comparisons with explicit pairing and source distinctions.
+- Add fixed-group OS/PFI/PFS/DSS/DFI Cox analyses without substituting PFI for PFS or filtering all patients on OS.
+- Add limma-trend/voom differential expression, all-gene ranked fgsea, and leading-edge statistic ridgelines.
+- Add opt-in TCGA bulk cell-context preparation, full-gene subset streaming, endpoint grids and KM plots.
+- Keep measurement labels and bulk-proxy gates in every new analysis; no bundled patient data or silent downloads.

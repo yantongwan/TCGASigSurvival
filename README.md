@@ -2,13 +2,15 @@
 
 **R package for gene/signature survival analysis, cell-context and state models, and matched RNA/protein validation.**
 
-Version: **0.3.0** | R >= 4.1 | MIT license
+Version: **0.4.0** | R >= 4.1 | MIT license
+
+新增：患者级细胞表达比较、全基因 DE/GSEA 山脊图和 OS/PFI/PFS/DSS/DFI 接口，保留旧 ACLY–Treg 联合评分并提供两层敏感性分析。完整教学见 [细胞相关基因功能指南](inst/doc/CELL_GENE_zh.md)。从当前 GitHub 源码安装 0.4.0 可使用新功能；历史 `v0.3.0` 不含这些新增接口。
 
 [English usage guide](inst/doc/USAGE_en.md) | [中文使用指南](inst/doc/USAGE_zh.md) | [完整方法与统计定义](inst/doc/METHODS.md) | [本地发布检查](docs/RELEASE_CHECK.md)
 
 这是面向研究者的可复现肿瘤生存关联分析工具。教程先用模拟数据跑通流程，再换成真实 TCGA 或自己的队列。
 
-> **重要边界：**本包分析肿瘤整体 bulk RNA，不会先分离 Naive CD4、Treg 等细胞再测量其基因表达。细胞模块是背景代理评分，不是细胞计数或真正的反卷积；trained-immunity-derived score 不等于已经证明功能性训练免疫。
+> **重要边界：**原有 TCGA 模块分析肿瘤整体 bulk RNA，不会先分离 Naive CD4、Treg 等细胞再测量其基因表达。细胞模块是背景代理评分，不是细胞计数或真正的反卷积；trained-immunity-derived score 不等于已经证明功能性训练免疫。0.4.0 新增接口支持用户自行提供的真实患者级细胞数据，并与 bulk 代理明确分开。
 
 ## 目录
 
@@ -166,7 +168,7 @@ packageVersion("TCGASigSurvival")
 
 ```r
 install.packages(c("data.table", "ggplot2", "stringr", "survival", "survminer"))
-install.packages("TCGASigSurvival_0.3.0.tar.gz", repos = NULL, type = "source")
+install.packages("TCGASigSurvival_0.4.0.tar.gz", repos = NULL, type = "source")
 ```
 
 要求 R ≥ 4.1。原生 R 分析不需要 Python。TCGA 数据在 macOS/Linux 上优先通过 gzip/awk 筛选，Windows 或缺少这些命令时使用 R gzip 流式读取。GitHub 安装不表示已经 CRAN 收录。
@@ -483,7 +485,7 @@ system.file("doc", "USAGE_zh.md", package = "TCGASigSurvival")
 
 ```sh
 R CMD build .
-R CMD check TCGASigSurvival_0.3.0.tar.gz --no-manual
+R CMD check TCGASigSurvival_0.4.0.tar.gz --no-manual
 Rscript scripts/validate_readme.R README.md /path/to/tutorial_output
 Rscript scripts/validate_release.R /path/to/validation_output
 ```

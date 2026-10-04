@@ -22,5 +22,7 @@ if (getRversion() >= "2.15.1") {
     , "signature_genes_present", "signature_only_score", "signature_score_mean", "signature_z"
     , "significance", "significant", "survival_patient_id", "target_gene_expr", "target_gene_mean"
     , "target_protein", "target_rna", "target_signature_score", "target_z", "wald_p"
+    , "analysis_score", "tissue_status", "endpoint", "log2_hr", "fdr_size", "raw_p"
+    , "rank_statistic", "label", "padj", "endpoint_time", "endpoint_status", "months"
   ))
 }

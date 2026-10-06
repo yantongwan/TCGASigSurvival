@@ -1,0 +1,8 @@
+"figure"	"file"	"source_file"	"source_table"	"bytes"	"md5"
+1	"tcga_acly_tumor_adjacent.pdf"	"results/ACLY_Treg_Figure_features_20261003/figures/A_bulk_ACLY_paired_adjacent.pdf"	"bulk_ACLY_paired_tests.tsv;bulk_ACLY_paired_values.tsv"	77742	"623ad27b04d9e6f289c72fd12be6cb49"
+2	"brca_acly_treg_hallmark.pdf"	"results/ACLY_Treg_Figure_features_20261003/figures/B_BRCA_joint_Hallmark_ridges.pdf"	"BRCA_joint_enrichment.tsv;BRCA_joint_leading_edge.tsv"	59691	"dd983f368137af31df90d3a50f610f17"
+3	"pan_tcga_acly_treg_survival.pdf"	"results/ACLY_Treg_Figure_features_20261003/figures/C_joint_survival_grid.pdf"	"ACLY_Treg_joint_survival_results.tsv"	31097	"726fdc1242310af17d0c18703a9eb602"
+4	"paad_immune_abundance_forest.pdf"	"results/PAAD_Immune_Abundance_20261004/figures/PAAD_OS_continuous_unadjusted.pdf"	"analysis/survival_results.tsv"	23133	"92854d792b54c674c502d32520dc9fb3"
+5	"paad_cd4_marker_score_km.pdf"	"results/PAAD_Immune_Abundance_20261004/figures/PAAD_OS_KM_CD4_marker_score.pdf"	"analysis/survival_results.tsv;analysis/survival_inputs.tsv"	28320	"6adcd1a09fd57fbcd795cb8fdf85ed0e"
+6	"paad_cd4_estimated_fraction_km.pdf"	"results/PAAD_Immune_Abundance_20261004/figures/PAAD_OS_KM_CD4_estimated_fraction.pdf"	"analysis/survival_results.tsv;analysis/survival_inputs.tsv"	28054	"04d5aa8ecf8ec56e3e52ffac0f0ae270"
+7	"paad_ductal_immune_abundance_forest.pdf"	"results/PAAD_Immune_Abundance_20261004/figures/PAAD_Ductal_OS_continuous_unadjusted.pdf"	"analysis/survival_results.tsv"	23558	"7051c56db420a202b6ab78c1e6be03a2"

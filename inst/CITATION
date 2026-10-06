@@ -2,8 +2,8 @@ citHeader("To cite TCGASigSurvival in publications use:")
 citEntry(entry = "Manual",
   title = "TCGASigSurvival: Gene, Cell Context and State Signature Survival Analysis",
   author = person("Yantong", "Wan"), year = "2026",
-  note = "R package version 0.4.0",
+  note = "R package version 0.5.0",
   url = "https://github.com/yantongwan/TCGASigSurvival",
   textVersion = paste("Wan Y (2026). TCGASigSurvival: Gene, Cell Context and State",
-    "Signature Survival Analysis. R package version 0.4.0.",
+    "Signature Survival Analysis. R package version 0.5.0.",
     "https://github.com/yantongwan/TCGASigSurvival"))

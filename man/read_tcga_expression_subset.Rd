@@ -18,7 +18,7 @@ read_tcga_expression_subset(
 
 \item{sample_ids}{Exact selected expression column names.}
 
-\item{gene_type}{GENCODE gene biotype to retain, default protein_coding.}
+\item{gene_type}{GENCODE gene biotype to retain, default protein_coding; NULL retains all annotated biotypes.}
 }
 \value{
 List with named log-expression matrix and gene mapping/QC. Duplicate

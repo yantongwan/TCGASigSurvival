@@ -1,3 +1,15 @@
+# TCGASigSurvival 0.5.0
+
+- Add separate marker-score and quanTIseq estimated-fraction survival workflows.
+- Add full-transcriptome primary-tumor loading, exact patient matching, clinical
+  conflict checks, cache fingerprints and explicit Xena-to-linear-TPM inversion.
+- Add standalone continuous and fixed-median Cox models with clinical adjustment,
+  per-10-percentage-point fraction effects, PH diagnostics, planned FDR families
+  and complete failure/exclusion records. No target gene or cell-high filtering.
+- Keep total CD4, non-regulatory CD4 and model-defined macrophage subtypes distinct.
+- Add a reproducible PAAD example, teaching guide and regression/integration tests.
+- Historical APIs and default expression-loader behavior remain unchanged.
+
 # TCGASigSurvival 0.3.0
 
 - Promote cell-context/state two-layer analysis into general exported functions.

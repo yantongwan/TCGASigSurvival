@@ -96,7 +96,8 @@ prepare_tcga_cell_context <- function(prepared, clinical_file, cell_type = "Treg
 #' @param expression_file Local gzipped TCGA Toil expression file.
 #' @param annotation_file Matching local GENCODE v23 GTF gzip file.
 #' @param sample_ids Exact selected expression column names.
-#' @param gene_type GENCODE gene biotype to retain, default protein_coding.
+#' @param gene_type GENCODE gene biotypes to retain; NULL retains all annotated
+#'   biotypes for full-transcriptome deconvolution. Default protein_coding.
 #' @return List with named log-expression matrix and gene mapping/QC. Duplicate
 #'   symbols retain the row with highest mean across selected samples, recorded
 #'   in gene_qc. This loader assumes the documented Xena log scale, never counts.
@@ -108,7 +109,8 @@ read_tcga_expression_subset <- function(expression_file, annotation_file, sample
   map <- data.frame(gene_id = tcgasig_extract_attr(gtf[[9]], "gene_id"),
     gene_name = tcgasig_extract_attr(gtf[[9]], "gene_name"),
     gene_type = tcgasig_extract_attr(gtf[[9]], "gene_type"), stringsAsFactors = FALSE)
-  map <- unique(map[map$gene_type %in% gene_type & !is.na(map$gene_name), ])
+  retain <- if (is.null(gene_type)) rep(TRUE, nrow(map)) else map$gene_type %in% gene_type
+  map <- unique(map[retain & !is.na(map$gene_name), ])
   con <- if (grepl("[.]gz$", expression_file)) gzfile(expression_file, "rt") else file(expression_file, "rt")
   on.exit(close(con))
   header <- strsplit(readLines(con, n = 1L), "\t", fixed = TRUE)[[1]]

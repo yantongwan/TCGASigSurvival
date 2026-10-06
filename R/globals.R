@@ -24,5 +24,6 @@ if (getRversion() >= "2.15.1") {
     , "target_protein", "target_rna", "target_signature_score", "target_z", "wald_p"
     , "analysis_score", "tissue_status", "endpoint", "log2_hr", "fdr_size", "raw_p"
     , "rank_statistic", "label", "padj", "endpoint_time", "endpoint_status", "months"
+    , "cell_type", "measurement", "curve", "survival_estimate", "lower_survival", "upper_survival"
   ))
 }

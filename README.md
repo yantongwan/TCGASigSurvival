@@ -2,9 +2,11 @@
 
 **R package for gene/signature survival analysis, cell-context and state models, and matched RNA/protein validation.**
 
-Version: **0.4.0** | R >= 4.1 | MIT license
+Version: **0.5.0** | R >= 4.1 | MIT license
 
-新增：患者级细胞表达比较、全基因 DE/GSEA 山脊图和 OS/PFI/PFS/DSS/DFI 接口，保留旧 ACLY–Treg 联合评分并提供两层敏感性分析。完整教学见 [细胞相关基因功能指南](inst/doc/CELL_GENE_zh.md)。从当前 GitHub 源码安装 0.4.0 可使用新功能；历史 `v0.3.0` 不含这些新增接口。
+新增：五类免疫细胞 marker 评分和 quanTIseq 比例估计的独立生存关联分析，不需要目标基因。完整教学见 [免疫丰度双方法指南](inst/doc/IMMUNE_ABUNDANCE_zh.md)。0.5.0 是本地新增源码版本，是否可从 GitHub 安装取决于远端实际发布状态，不代表已上传。
+
+患者级细胞表达比较、全基因 DE/GSEA 山脊图和 OS/PFI/PFS/DSS/DFI 接口继续保留，教学见 [细胞相关基因功能指南](inst/doc/CELL_GENE_zh.md)；历史 `v0.3.0` 不含这些接口。
 
 [English usage guide](inst/doc/USAGE_en.md) | [中文使用指南](inst/doc/USAGE_zh.md) | [完整方法与统计定义](inst/doc/METHODS.md) | [本地发布检查](docs/RELEASE_CHECK.md)
 
@@ -14,6 +16,8 @@ Version: **0.4.0** | R >= 4.1 | MIT license
 
 ## 目录
 
+- [功能例图](#功能例图)
+- [五类免疫细胞与生存](#五类免疫细胞与生存)
 - [完整模拟数据练习](#完整模拟数据练习)
 - [安装与快速测试](#1-安装与快速测试)
 - [TCGA 数据准备](#2-准备-tcga-数据)
@@ -38,10 +42,50 @@ Version: **0.4.0** | R >= 4.1 | MIT license
 | 当前分析每癌种有多少患者和事件？ | `summarize_tcga_cohorts()` |
 | 多个基因/模块如何批量分析？ | `run_pan_tcga_signature_batch()` |
 | 严格匹配的 RNA 和蛋白是否一致？ | `match_proteogenomic_tables()` / `run_matched_proteogenomic_analysis()` |
+| 五类细胞的特征评分或估计比例是否与生存相关？ | `run_immune_abundance_analysis()` |
 
 分析单位是患者，按癌种独立拟合；OS 指总生存。人数取决于当前 prepared 的样本选择、OS 和模型完整病例条件，不是下载库的固定人数。
 
 不包含：单细胞聚类注释、内置 CIBERSORT/xCell、自动同源基因转换、完整 CPTAC 下载、药物筛选、分子对接或临床预测模型。
+
+## 功能例图
+
+以下是公开 TCGA 数据的**真实运行例图**，不是模拟数据，也不是独立验证后的生物学结论。例图仅保留 PDF；点击图名即可打开完整图。GitHub 支持在 PDF 文件页面预览，README 本身不把 PDF 当作内嵌图片。见 [GitHub PDF 预览说明](https://docs.github.com/en/repositories/working-with-files/using-files/working-with-non-code-files#rendering-pdf-documents)。
+
+| 例图 PDF | 对应功能 | 阅读要点 |
+| --- | --- | --- |
+| [图1：ACLY 肿瘤与癌旁表达比较](docs/figures/tcga_acly_tumor_adjacent.pdf) | `compare_cell_gene_expression()` / `plot_cell_gene_expression()` | 20 癌种、676 对同患者标本；癌旁正常在左、肿瘤在右。显示的是 bulk ACLY，不是纯化 Treg 内表达，也不是健康供者对照。 |
+| [图2：BRCA Hallmark 富集山脊图](docs/figures/brca_acly_treg_hallmark.pdf) | `run_cell_gene_enrichment()` / `plot_cell_gene_enrichment()` | 1091 位患者按 ACLY–Treg 联合评分分组；所有测试基因参与排名。山脊是 leading-edge 基因统计量的密度，不是患者置信区间，也不是冲积图。 |
+| [图3：多癌种、多终点生存网格](docs/figures/pan_tcga_acly_treg_survival.pdf) | `run_cell_gene_survival()` / `plot_cell_gene_survival_grid()` | 联合评分的 OS/PFI/DSS/DFI；颜色表示 log2(HR)，点大小表示 FDR 强度，叉号表示不可估计。本地没有独立 PFS，不能用 PFI 替代。 |
+| [图4：五类免疫细胞的双方法森林图](docs/figures/paad_immune_abundance_forest.pdf) | `run_immune_abundance_analysis()` / `plot_cell_abundance_forest()` | PAAD 的 marker score 与 quanTIseq 估计比例分别建模；HR 为每升高 1 个参考队列 SD 的效应，横线为 95% CI。所有五类细胞均展示，未按显著性筛选。 |
+| [图5：CD4 特征评分高低组 KM](docs/figures/paad_cd4_marker_score_km.pdf) | `plot_cell_abundance_km()`，`measurement="marker_score"` | 固定中位数分组；177 人、93 个死亡事件，未校正 log-rank P=0.238。这是保留非显著结果的示例，评分不是百分比。 |
+| [图6：总 CD4 估计比例高低组 KM](docs/figures/paad_cd4_estimated_fraction_km.pdf) | `plot_cell_abundance_km()`，`measurement="estimated_fraction"` | 同一 PAAD 队列，未校正 log-rank P=0.000707；Cox 高/低 HR=0.491，95% CI 0.323–0.748，FDR=0.00909。总 CD4 包含 Treg，不是流式实测比例。 |
+| [图7：严格导管型 PAAD 敏感性森林图](docs/figures/paad_ductal_immune_abundance_forest.pdf) | 相同接口，`cohort="PAAD_Ductal"` | OS 可用146人、85事件；与主队列重叠，不是外部验证。总 CD4 连续效应 P=0.0924、FDR=0.308，不能把主队列例图解释为已确证的稳健机制。 |
+
+图1–3 沿用 ACLY–Treg 功能示例，图4–7 展示免疫丰度双方法。**图5和图6的分组变量不同**，不能因为同一个细胞标签就把两种测量视为等价；所有 KM 都是未校正曲线。联合评分 `z(ACLY)+z(Treg_score)` 也不等于“每个 Treg 细胞内 ACLY 高表达”。
+
+完整图注、来源文件与 MD5 指纹见 [例图说明](docs/figures/README.md) 和 [例图清单](docs/figures/manifest.tsv)。这里只分发例图与汇总信息，不包含患者级源表、原始表达矩阵或 MSigDB 基因集合。
+
+两条真实数据入口分别为 [ACLY–Treg 示例](scripts/example_cell_gene_tcga.R) 和 [PAAD 免疫丰度示例](scripts/analyze_paad_immune_abundance.R)。已有分析结果时，可用 `Rscript scripts/prepare_readme_examples.R /path/to/TCGA_project` 同步 PDF 例图，不重算生存、不修改原分析图。
+
+## 五类免疫细胞与生存
+
+```r
+library(TCGASigSurvival) # local version >= 0.5.0
+# Optional external deconvolution dependency:
+# BiocManager::install("quantiseqr")
+d <- prepare_tcga_abundance_data(project_dir = "/path/to/TCGA_project",
+  cancer_type = "PAAD", cache_file = "/path/to/new_results/input.rds")
+res <- run_immune_abundance_analysis(d$expression, d$clinical,
+  expression_scale = d$expression_scale,
+  endpoints = c("OS", "PFI", "DSS", "DFI"),
+  covariate_sets = list(unadjusted = character(), age_sex = c("age", "sex")),
+  out_dir = "/path/to/new_results/analysis")
+res$module_status
+res$survival$results
+```
+
+评分不是百分比。quanTIseq 使用外部 `quantiseqr` 的 TIL10 模型和线性全转录组 TPM；CD4 主结果为非调节型 CD4 + Treg，另导出非调节型 CD4。其他细胞保留在比例分母中。完整可复现 PAAD 入口为 `scripts/analyze_paad_immune_abundance.R`，支持分阶段运行、图表和报告生成。
 
 ## 完整模拟数据练习
 
@@ -168,7 +212,7 @@ packageVersion("TCGASigSurvival")
 
 ```r
 install.packages(c("data.table", "ggplot2", "stringr", "survival", "survminer"))
-install.packages("TCGASigSurvival_0.4.0.tar.gz", repos = NULL, type = "source")
+install.packages("TCGASigSurvival_0.5.0.tar.gz", repos = NULL, type = "source")
 ```
 
 要求 R ≥ 4.1。原生 R 分析不需要 Python。TCGA 数据在 macOS/Linux 上优先通过 gzip/awk 筛选，Windows 或缺少这些命令时使用 R gzip 流式读取。GitHub 安装不表示已经 CRAN 收录。
@@ -485,14 +529,14 @@ system.file("doc", "USAGE_zh.md", package = "TCGASigSurvival")
 
 ```sh
 R CMD build .
-R CMD check TCGASigSurvival_0.4.0.tar.gz --no-manual
+R CMD check TCGASigSurvival_0.5.0.tar.gz --no-manual
 Rscript scripts/validate_readme.R README.md /path/to/tutorial_output
 Rscript scripts/validate_release.R /path/to/validation_output
 ```
 
 教程测试只提取带 `# tutorial-demo` 标记的 R 代码块并按顺序执行，不下载真实数据。真实 TCGA 流程测试见 `scripts/validate_real_tcga.R`。GitHub Actions 配置了 Linux/macOS/Windows 检查，远端通过情况以实际工作流为准；本地 macOS 已完成构建、安装、自动测试及真实 TCGA 流程验证。
 
-公共仓库不包含患者数据、私人联系信息或未公开基因集。代码 MIT；外部数据及原始方法需要分别引用并遵守许可。
+公共仓库不包含患者级源表、原始表达矩阵、私人联系信息或未公开基因集；README 的例图为公开 TCGA 数据的结果展示。代码 MIT；外部数据及原始方法需要分别引用并遵守许可。
 
 数据与方法来源：[UCSC Xena](https://xena.ucsc.edu/)、[GENCODE v23](https://www.gencodegenes.org/human/release_23.html)、[TCGA clinical resource](https://doi.org/10.1016/j.cell.2018.02.052)、[Toil expression resource](https://doi.org/10.1038/nbt.3772)、[survival](https://cran.r-project.org/package=survival)、[survminer cutoff](https://rpkgs.datanovia.com/survminer/reference/surv_cutpoint.html)。
 
